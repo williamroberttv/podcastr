@@ -28,11 +28,11 @@ export default function Episode({ episode }: EpisodesProps){
   return(
     <div className={styles.episode}>
       <div className={styles.thumbnailContainer}>
-        <button>
           <Link href="/">
+        <button>
             <img src="/arrow-left.svg" alt="Voltar"/>
-          </Link>
         </button>
+          </Link>
         <Image
         width={700}
         height={160}
