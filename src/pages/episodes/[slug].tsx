@@ -1,8 +1,10 @@
 import { GetStaticPaths, GetStaticProps } from "next";
 import Link from 'next/link';
 import Image from 'next/image'
+import Head from 'next/head'
 import {format, parseISO} from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
+import {usePlayer} from '../../contexts/PlayerContext'
 import {api} from '../../services/api'
 import {convertDurationToTimeString} from '../../utils/convertDurationToTimeString'
 
@@ -25,8 +27,14 @@ type EpisodesProps = {
 }
 
 export default function Episode({ episode }: EpisodesProps){
+
+  const {play} = usePlayer()
+
   return(
     <div className={styles.episode}>
+      <Head>
+        <title>{episode.title} | Podcastr</title>
+      </Head>
       <div className={styles.thumbnailContainer}>
           <Link href="/">
         <button>
@@ -38,7 +46,7 @@ export default function Episode({ episode }: EpisodesProps){
         height={160}
         src={episode.thumbnail}
         objectFit="cover"/>
-        <button>
+        <button onClick={() => play(episode)}>
           <img src="/play.svg" alt="Tocar episódio"/>
         </button>
       </div>
@@ -50,7 +58,8 @@ export default function Episode({ episode }: EpisodesProps){
         <span>{episode.durationAsString}</span>
         </header>
 
-        <div className={styles.description} dangerouslySetInnerHTML={{__html: episode.description}}/>
+        <div className={styles.description} 
+        dangerouslySetInnerHTML={{__html: episode.description}}/>
     </div>
   )
 }
